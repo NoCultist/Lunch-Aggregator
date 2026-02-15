@@ -15,7 +15,7 @@ export function JoinSessionForm({
   onPersonNameChange, 
   onJoinSession 
 }: JoinSessionFormProps) {
-  return (
+    return (
     <div style={{ maxWidth: '500px', margin: '0 auto', textAlign: 'center' }}>
       <div style={{ marginBottom: '24px', padding: '30px', background: '#e7f3ff', borderRadius: '12px', border: '2px solid #0066cc' }}>
         <h2 style={{ marginBottom: '16px', color: '#004085' }}>

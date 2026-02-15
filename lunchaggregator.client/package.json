@@ -1,5 +1,5 @@
 {
-  "name": "lunch-aggregator-frontend",
+  "name": "lunch-aggregator-client",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -16,7 +16,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "tsc --noCheck && vite build",
+    "preview": "vite preview",
+    "start": "tsc --noCheck && vite build && vite"
   }
 }

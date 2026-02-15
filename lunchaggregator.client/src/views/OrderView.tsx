@@ -52,19 +52,19 @@ export function OrderView({
     );
   }
 
-  if (!userHasJoined) {
-    return (
-      <div className="card">
-        <JoinSessionForm
-          session={activeSession}
-          personName={personName}
-          loading={loading}
-          onPersonNameChange={onPersonNameChange}
-          onJoinSession={onJoinSession}
-        />
-      </div>
-    );
-  }
+    if (!userHasJoined && currentUserName == null) {
+        return (
+            <div className="card">
+                <JoinSessionForm
+                    session={activeSession}
+                    personName={personName}
+                    loading={loading}
+                    onPersonNameChange={onPersonNameChange}
+                    onJoinSession={onJoinSession}
+                />
+            </div>
+        );
+    }
 
   const sessionMenu = menu.filter(d => d.restaurantId === activeSession.restaurantId);
 

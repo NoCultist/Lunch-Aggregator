@@ -190,26 +190,28 @@ function App() {
         }
       }
       
-      if (session && savedUserName && savedSessionId === session.id.toString()) {
-        if (savedHasJoined && session.participants.includes(savedUserName)) {
-          setCurrentUserName(savedUserName);
-          setUserHasJoined(true);
-          // load user's orders when restoring joined state after refresh
-          await loadOrders(true);
-          if (!silent) {
-            showMessage('info', `Witaj ponownie, ${savedUserName}!`);
+          if (session && savedUserName && savedSessionId === session.id.toString()) {
+              if (savedHasJoined && session.participants.includes(savedUserName)) {
+                  setCurrentUserName(savedUserName);
+                  setUserHasJoined(true);
+                  // load user's orders when restoring joined state after refresh
+                  await loadOrders(true);
+                  if (!silent) {
+                      showMessage('info', `Witaj ponownie, ${savedUserName}!`);
+                  }
+              }
+              //  else {
+              //    clearUserData();
+              //  }
+              //} else if (session && savedSessionId && savedSessionId !== session.id.toString()) {
+              //  clearUserData();
+              //  if (!silent) {
+              //    showMessage('info', 'Rozpoczęto nową sesję. Dołącz ponownie.');
+              //  }
+              //} else if (!session && savedUserName) {
+              //  clearUserData();
+              //}
           }
-        } else {
-          clearUserData();
-        }
-      } else if (session && savedSessionId && savedSessionId !== session.id.toString()) {
-        clearUserData();
-        if (!silent) {
-          showMessage('info', 'Rozpoczęto nową sesję. Dołącz ponownie.');
-        }
-      } else if (!session && savedUserName) {
-        clearUserData();
-      }
     } catch (error) {
       console.error('Error loading active session:', error);
     }
@@ -307,23 +309,25 @@ function App() {
       return;
     }
 
-    if (!personName.trim()) {
+      if (!personName.trim() && !currentUserName.trim()) {
       showMessage('error', 'Podaj swoje imię aby dołączyć');
       return;
     }
 
-    try {
+      try {
+          const name = currentUserName.trim() ? currentUserName : personName.trim();
       setLoading(true);
       const session = await api.joinSession({
         sessionId: activeSession.id,
-        personName: personName.trim(),
+        personName: name,
       });
       setActiveSession(session);
       // remember session id so we detect when host closes it
-      previousSessionIdRef.current = session.id;
-      setCurrentUserName(personName.trim());
+        previousSessionIdRef.current = session.id;
+           setCurrentUserName(name);
+     
       setUserHasJoined(true);
-      saveUserData(personName.trim(), true, session.id);
+      saveUserData(name, true, session.id);
       await loadOrders();
       showMessage('success', `Dołączyłeś do sesji: ${session.restaurantName}`);
       setPersonName('');
@@ -352,7 +356,7 @@ function App() {
       setUserHasJoined(false);
       setSelectedDish(null);
       setOrders([]);
-      clearUserData();
+      //clearUserData();
       showMessage('success', 'Sesja zamknięta pomyślnie');
     } catch (error) {
       showMessage('error', 'Nie udało się zamknąć sesji');
@@ -367,9 +371,14 @@ function App() {
       return;
     }
 
-    if (!userHasJoined) {
-      showMessage('error', 'Musisz najpierw dołączyć do sesji');
-      return;
+      if (!userHasJoined) {
+          try {
+              await handleJoinSession();
+          }
+          catch {
+              showMessage('error', 'Musisz najpierw dołączyć do sesji');
+          }
+          return;
     }
 
     try {
