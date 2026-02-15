@@ -32,8 +32,8 @@ Right now this project is minimal, but its goals are:
 # 🛠️ Getting Started
 ## Requirements
 Ensure you have the following installed:
-- .NET SDK (for backend)
-- Node.js + npm/yarn (for frontend)
+- .NET SDK (for backend - uses .NET 10.0.3)
+- Node.js + npm (for frontend)
 
 ## Run Locally
 Clone the repo:
