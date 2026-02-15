@@ -18,11 +18,13 @@ Right now this project is minimal, but its goals are:
 - 🧠 Easy to extend with new data sources or UI components
 
 # 🧠 Architecture Overview
+<pre>
 +-------------------+        +---------------------+
 |  lunchaggregator. | <====> |  LunchAggregator.   |
 |     client        |        |      Server         |
 +-------------------+        +---------------------+
         Frontend                  Backend API
+</pre>
 
 - Server: Handles fetching and normalising lunch feeds.
 - Client: UI layer presenting menus and options.
