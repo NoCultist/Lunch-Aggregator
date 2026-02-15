@@ -52,7 +52,7 @@ export function OrderView({
     );
   }
 
-    if (!userHasJoined && currentUserName == null) {
+    if (!userHasJoined && !currentUserName.trim()) {
         return (
             <div className="card">
                 <JoinSessionForm
